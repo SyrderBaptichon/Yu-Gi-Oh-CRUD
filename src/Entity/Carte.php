@@ -14,9 +14,6 @@ class Carte
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $num_carte = null;
-
     #[ORM\Column(length: 255)]
     private ?string $carte_nom = null;
 
@@ -50,18 +47,6 @@ class Carte
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNumCarte(): ?int
-    {
-        return $this->num_carte;
-    }
-
-    public function setNumCarte(int $num_carte): static
-    {
-        $this->num_carte = $num_carte;
-
-        return $this;
     }
 
     public function getCarteNom(): ?string

@@ -18,21 +18,69 @@ class CarteController extends AbstractController
         ]);
     }
 
+    #[Route('/carte/insert', name: 'create_carte')]
+    public function createCarte(EntityManagerInterface $entityManager){
+        $carte = new Carte();
+        $carte->setCarteNom("Les alliés de Ron");
+        $carte->setCarteCategorie("Magie");
+        $carte->setCarteImage("Indisponible");
+
+        // tell Doctrine you want to (eventually) save the Product (no queries yet)
+        $entityManager->persist($carte);
+
+        // actually executes the queries (i.e. the INSERT query)
+        $entityManager->flush();
+
+        return new Response("La carte ".$carte->getCarteNom()." a été ajoutée à la base de données avec succès !");
+    }
+
     #[Route('/cartes', name: 'cartes_show')]
     public function showAll(EntityManagerInterface $entityManager) :Response
     {
         $cartes = $entityManager->getRepository(Carte::class)->findAll();
-        $chaine=" <br/>";
-        if(!$cartes){
-            throw $this->createNotFoundException('rien !');
+
+        // Générer le tableau HTML
+        $table = '<h1>Voici les cartes :</h1><table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Catégorie</th>
+                        <th>Attribut</th>
+                        <th>Niveau</th>
+                        <th>Image</th>
+                        <th>Type</th>
+                        <th>Spécificité</th>
+                        <th>ATK</th>
+                        <th>DEF</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>';
+
+        foreach ($cartes as $carte) {
+            $table .= '<tr>
+                    <td>' . $carte->getId() . '</td>
+                    <td>' . $carte->getCarteNom() . '</td>
+                    <td>' . $carte->getCarteCategorie() . '</td>
+                    <td>' . $carte->getCarteAttribut() . '</td>
+                    <td>' . $carte->getCarteNiveau() . '</td>
+                    <td>' . $carte->getCarteImage() . '</td>
+                    <td>' . $carte->getCarteType() . '</td>
+                    <td>' . $carte->getCarteSpecificite() . '</td>
+                    <td>' . $carte->getCarteATK() . '</td>
+                    <td>' . $carte->getCarteDEF() . '</td>
+                    <td>' . $carte->getCarteDescription() . '</td>
+                </tr>';
         }
-        foreach ($cartes as $carte){
-            $chaine.=$carte->getCarteNom()."<br/>";
-        }
-        return new Response("Voici les cartes : \n".$chaine);
+
+        $table .= '</tbody></table>';
+
+        // Retourner le tableau dans une réponse HTTP
+        return new Response($table);
     }
 
-    #[Route('/carte/{id}', name: 'product_show')]
+    #[Route('/carte/{id}', name: 'carte_show')]
     public function show(EntityManagerInterface $entityManager, int $id): Response
     {
         $carte = $entityManager->getRepository(Carte::class)->find($id);
@@ -43,22 +91,7 @@ class CarteController extends AbstractController
             );
         }
 
-        return new Response('Check out this great product: '.$carte->getCarteNom());
-    }
-
-    #[Route('/carte/insert', name: 'create_carte')]
-    public function createCarte(EntityManagerInterface $entityManager){
-        $carte = new Carte();
-        $carte->setNumCarte(5);
-        $carte->setCarteNom("Les alliés de Ron");
-
-        // tell Doctrine you want to (eventually) save the Product (no queries yet)
-        $entityManager->persist($carte);
-
-        // actually executes the queries (i.e. the INSERT query)
-        $entityManager->flush();
-
-        return new Response('Saved new product with id '.$carte->getCarteNom());
+        return new Response('Voici la carte: '.$carte->getCarteNom());
     }
 
     #[Route('/carte/update/{id}', name: 'update_carte')]
@@ -75,11 +108,10 @@ class CarteController extends AbstractController
         $product->setCarteNom($product->getCarteNom()." modifié");
         $entityManager->flush();
 
-        return $this->redirectToRoute('product_show', [
-            'id' => $product->getId()
-        ]);
+        return new Response('Ce qui a été mise à jour : '.$product->getCarteNom());
     }
 
+    #[Route('/carte/delete/{id}', name: 'delete_carte')]
     public function delete(EntityManagerInterface $entityManager, int $id): Response
     {
         $product = $entityManager->getRepository(Carte::class)->find($id);

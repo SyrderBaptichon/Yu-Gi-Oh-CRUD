@@ -36,14 +36,28 @@ class LangueController extends AbstractController
     public function showAll(EntityManagerInterface $entityManager) :Response
     {
         $langues = $entityManager->getRepository(Langue::class)->findAll();
-        $chaine=" <br/>";
-        if(!$langues){
-            throw $this->createNotFoundException('rien !');
+
+        // Générer le tableau HTML
+        $table = '<h1>Voici les langues :</h1><table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom de la Langue</th>
+                    </tr>
+                </thead>
+                <tbody>';
+
+        foreach ($langues as $langue) {
+            $table .= '<tr>
+                    <td>' . $langue->getId() . '</td>
+                    <td>' . $langue->getNomLangue() . '</td>
+                </tr>';
         }
-        foreach ($langues as $langue){
-            $chaine.=$langue->getNomLangue()."<br/>";
-        }
-        return new Response("Voici les langues : \n".$chaine);
+
+        $table .= '</tbody></table>';
+
+        // Retourner le tableau dans une réponse HTTP
+        return new Response($table);
     }
     #[Route('/langue/{id}', name: 'product_show')]
     public function showByID(EntityManagerInterface $entityManager, int $id): Response
