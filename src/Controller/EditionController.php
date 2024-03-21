@@ -24,7 +24,7 @@ class EditionController extends AbstractController
             $tableRows .= '
             <tr>
                 <td>' . $edition->getNomEdition() . '</td>
-                <td>' . $edition->getNumEdition() . '</td>
+                <td>' . $edition->getId() . '</td>
                 <td>' . $edition->getDateEdition()->format('Y-m-d') . '</td>
             </tr>
         ';
@@ -54,7 +54,6 @@ class EditionController extends AbstractController
     public function createEdition(EntityManagerInterface $entityManager): Response
     {
         $edition = new Edition();
-        $edition->setNumEdition(50);
         $edition->setNomEdition('aaa');
         // $date = new DateTime();
         // $edition->setDateEdition($date);
@@ -65,7 +64,7 @@ class EditionController extends AbstractController
         // actually executes the queries (i.e. the INSERT query)
         $entityManager->flush();
 
-        return new Response('Nouvelle édition insérer avec id= '.$edition->getId());
+        return new Response("L'édition ".$edition->getNomEdition()." à été ajouter à la base de donnée avec succès !");
     }
 
     #[Route('/edition/{id}', name: 'show_editon')]
@@ -93,7 +92,6 @@ class EditionController extends AbstractController
             );
         }
 
-        $edition->setNumEdition($edition->getNumEdition());
         $edition->setNomEdition('aaa');
         $entityManager->flush();
 
@@ -112,8 +110,6 @@ class EditionController extends AbstractController
             );
         }
 
-        $edition->setNumEdition($edition->getNumEdition());
-        $edition->setNomEdition($edition->getNomEdition());
         $entityManager->remove($edition);
         $entityManager->flush();
 

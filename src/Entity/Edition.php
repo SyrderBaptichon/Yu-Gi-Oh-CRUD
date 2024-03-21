@@ -14,9 +14,6 @@ class Edition
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $num_edition = null;
-
     #[ORM\Column(length: 255)]
     private ?string $nom_edition = null;
 
@@ -26,18 +23,6 @@ class Edition
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNumEdition(): ?int
-    {
-        return $this->num_edition;
-    }
-
-    public function setNumEdition(int $num_edition): static
-    {
-        $this->num_edition = $num_edition;
-
-        return $this;
     }
 
     public function getNomEdition(): ?string
