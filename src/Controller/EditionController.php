@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Edition;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,8 +56,8 @@ class EditionController extends AbstractController
     {
         $edition = new Edition();
         $edition->setNomEdition('aaa');
-        // $date = new DateTime();
-        // $edition->setDateEdition($date);
+        $date = new DateTime();
+        $edition->setDateEdition($date);
 
         // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $entityManager->persist($edition);
