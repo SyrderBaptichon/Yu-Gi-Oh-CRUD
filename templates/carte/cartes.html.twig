@@ -4,20 +4,14 @@
 
     <h1>Voici les cartes :</h1>
 
-    <table border="1">
+    <table border="1" class="table is-bordered is-striped is-hoverable is-narrow is-fullwidth">
         <thead>
         <tr>
             <th>ID</th>
             <th>Nom</th>
             <th>Catégorie</th>
-            <th>Attribut</th>
-            <th>Niveau</th>
             <th>Image</th>
             <th>Type</th>
-            <th>Spécificité</th>
-            <th>ATK</th>
-            <th>DEF</th>
-            <th>Description</th>
         </tr>
         </thead>
         <tbody>
@@ -26,14 +20,8 @@
                 <td>{{ carte.getId() }}</td>
                 <td>{{ carte.getCarteNom() }}</td>
                 <td>{{ carte.getCarteCategorie() }}</td>
-                <td>{{ carte.getCarteAttribut() }}</td>
-                <td>{{ carte.getCarteNiveau() }}</td>
                 <td>{{ carte.getCarteImage() }}</td>
                 <td>{{ carte.getCarteType() }}</td>
-                <td>{{ carte.getCarteSpecificite() }}</td>
-                <td>{{ carte.getCarteATK() }}</td>
-                <td>{{ carte.getCarteDEF() }}</td>
-                <td>{{ carte.getCarteDescription() }}</td>
             </tr>
         {% endfor %}
         </tbody>

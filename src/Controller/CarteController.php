@@ -79,8 +79,11 @@ class CarteController extends AbstractController
                 'No product found for id '.$id
             );
         }
+        $cartes = array($carte);
 
-        return new Response('Voici la carte: '.$carte->getCarteNom());
+        return $this->render('carte/cartes.html.twig', [
+            'cartes' => $cartes,
+        ]);
     }
 
     #[Route('/carte/update/{id}', name: 'update_carte')]
