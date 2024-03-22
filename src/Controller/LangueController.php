@@ -70,7 +70,7 @@ class LangueController extends AbstractController
             );
         }
 
-        return new Response('Check out this great product: '.$product->getNomLangue());
+         return new Response('Check out this great product: '.$product->getNomLangue());
     }
 
     #[Route('/langue/update/{id}', name: 'product_inflate')]
