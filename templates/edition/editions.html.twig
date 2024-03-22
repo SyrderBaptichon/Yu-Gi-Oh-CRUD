@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1>Voici les éditions :</h1>
+<table class="table is-bordered is-striped is-hoverable is-narrow is-fullwidth">
+    <thead>
+    <tr>
+        <th>Nom de l'édition</th>
+        <th>Numéro de l'édition</th>
+        <th>Date de l'édition</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for edition in editions %}
+        <tr>
+            <td>{{ edition.getNomEdition() }}</td>
+            <td>{{ edition.getId() }}</td>
+            <td>{{ edition.getDateEdition()|date('Y-m-d') }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -22,34 +22,11 @@ class EditionController extends AbstractController
             throw $this->createNotFoundException('Aucune édition trouvée !');
         }
 
-        $tableRows = '';
-        foreach ($editions as $edition) {
-            $tableRows .= '
-            <tr>
-                <td>' . $edition->getNomEdition() . '</td>
-                <td>' . $edition->getId() . '</td>
-                <td>' . $edition->getDateEdition()->format('Y-m-d') . '</td>
-            </tr>
-        ';
-        }
-
-        $html = '
-        <h1>Voici les éditions :</h1>
-        <table class="table is-bordered is-striped is-hoverable is-narrow is-fullwidth" border="1">
-            <thead>
-                <tr>
-                    <th>Nom de l\'édition</th>
-                    <th>Numéro de l\'édition</th>
-                    <th>Date de l\'édition</th>
-                </tr>
-            </thead>
-            <tbody>
-                ' . $tableRows . '
-            </tbody>
-        </table>
-    ';
-        return new Response($html);
+        return $this->render('edition/editions.html.twig', [
+            'editions' => $editions,
+        ]);
     }
+
 
 
     public function createEdition(EntityManagerInterface $entityManager): Response
