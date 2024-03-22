@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Carte;
+use App\Form\CarteType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -18,8 +20,27 @@ class CarteController extends AbstractController
         ]);
     }
 
-    #[Route('/carte/insert', name: 'create_carte')]
-    public function createCarte(EntityManagerInterface $entityManager){
+    #[Route('/carte/insert', name: 'insert_carte')]
+    public function new(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $carte = new Carte();
+        $form = $this->createForm(CarteType::class, $carte);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $carte= $form->getData();
+            $entityManager->persist($carte);
+            $entityManager->flush();
+            return $this->redirectToRoute('cartes_show');
+        }
+
+        return $this->render('carte/formCarte.html.twig',array(
+            'form' => $form,
+        ));
+    }
+
+
+    public function createCarte(EntityManagerInterface $entityManager):Response{
         $carte = new Carte();
         $carte->setCarteNom("Les alliés de Ron");
         $carte->setCarteCategorie("Magie");
@@ -128,6 +149,5 @@ class CarteController extends AbstractController
         return new Response('Ce qui a été supprimer : '.$product->getCarteNom());
 
     }
-
 
 }
