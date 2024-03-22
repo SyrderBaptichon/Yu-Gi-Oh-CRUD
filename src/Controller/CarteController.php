@@ -116,6 +116,24 @@ class CarteController extends AbstractController
     }
 
     #[Route('/carte/update/{id}', name: 'update_carte')]
+    public function actionUpdate(EntityManagerInterface $entityManager, Request $request, int $id): Response
+    {
+        $carte = $entityManager->getRepository(Carte::class)->find($id);
+        $form = $this->createForm(CarteType::class, $carte);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $carte = $form->getData();
+            $entityManager->persist($carte);
+            $entityManager->flush();
+            return $this->redirectToRoute('cartes_show');
+        }
+
+        return $this->render('carte/formCarte.html.twig', array(
+            'form' => $form,
+        ));
+    }
+
     public function update(EntityManagerInterface $entityManager, int $id): Response
     {
         $product = $entityManager->getRepository(Carte::class)->find($id);
