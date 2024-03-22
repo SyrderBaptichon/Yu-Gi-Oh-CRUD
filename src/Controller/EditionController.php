@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Edition;
+use App\Form\EditionType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -97,7 +99,6 @@ class EditionController extends AbstractController
         $entityManager->flush();
 
         return new Response('Ce qui a été mise à jour : '.$edition->getNomEdition());
-
     }
 
     #[Route('/edition/delete/{id}', name: 'delete_edition')]
@@ -115,5 +116,27 @@ class EditionController extends AbstractController
         $entityManager->flush();
 
         return new Response('Ce qui a été supprimer : '.$edition->getNomEdition());
+    }
+
+
+
+     #[Route("/form", name: "formulaire")]
+    public function action(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $edition = new Edition();
+        $form = $this->createForm(EditionType::class, $edition);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $edition = $form->getData();
+            $entityManager->persist($edition);
+            // but, the original `$task` variable has also been updated
+            $entityManager->flush();
+            return $this->redirectToRoute('app_edition');
+        }
+
+        return $this->render('edition/edition.html.twig', array(
+            'form' => $form,
+        ));
     }
 }
