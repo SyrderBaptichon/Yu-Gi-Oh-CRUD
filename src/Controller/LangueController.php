@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Langue;
+use App\Form\LangueType;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpParser\Node\Scalar\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -90,6 +91,19 @@ class LangueController extends AbstractController
         return $this->redirectToRoute('product_show', [
             'id' => $product->getId()
         ]);
+    }
+    #[Route("/{id}/dummy", name: 'modif_langue_form')]
+
+    public function formActionUpdate(EntityManagerInterface $entityManager,int $id)
+    {
+        $langue = $entityManager->getRepository(Langue::class)->find($id);
+        $dummyForm = $this->createForm(LangueType::class, $langue);
+        return $this->render('langue/formLangue.html.twig', array('form' => $dummyForm));
+    }
+
+    public function formActionInsert()
+    {
+
     }
     #[Route('/langue/delete/{id}', name: 'product_delete')]
 

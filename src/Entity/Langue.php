@@ -14,6 +14,13 @@ class Langue
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="nom", type="string", length=255)
+     */
     private ?string $nom_langue = null;
 
     public function getId(): ?int
