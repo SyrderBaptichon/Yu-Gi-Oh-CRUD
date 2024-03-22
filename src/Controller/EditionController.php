@@ -35,7 +35,7 @@ class EditionController extends AbstractController
 
         $html = '
         <h1>Voici les éditions :</h1>
-        <table border="1">
+        <table class="table is-bordered is-striped is-hoverable is-narrow is-fullwidth" border="1">
             <thead>
                 <tr>
                     <th>Nom de l\'édition</th>
@@ -48,12 +48,10 @@ class EditionController extends AbstractController
             </tbody>
         </table>
     ';
-
         return new Response($html);
     }
 
 
-    #[Route('/edition/insert/', name: 'create_editon')]
     public function createEdition(EntityManagerInterface $entityManager): Response
     {
         $edition = new Edition();
@@ -70,6 +68,26 @@ class EditionController extends AbstractController
         return new Response("L'édition ".$edition->getNomEdition()." à été ajouter à la base de donnée avec succès !");
     }
 
+    #[Route("/edition/insert/", name: "edition_insert")]
+    public function actionInsert(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $edition = new Edition();
+        $form = $this->createForm(EditionType::class, $edition);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $edition = $form->getData();
+            $entityManager->persist($edition);
+            // but, the original `$task` variable has also been updated
+            $entityManager->flush();
+            return $this->redirectToRoute('app_edition');
+        }
+
+        return $this->render('edition/edition.html.twig', array(
+            'form' => $form,
+        ));
+    }
+
     #[Route('/edition/{id}', name: 'show_editon')]
     public function show(EntityManagerInterface $entityManager, int $id): Response
     {
@@ -84,7 +102,6 @@ class EditionController extends AbstractController
         return new Response('Voici l\'édition: '.$edition->getNomEdition());
     }
 
-    #[Route('/edition/update/{id}', name: 'update_edition')]
     public function update(EntityManagerInterface $entityManager, int $id): Response
     {
         $edition = $entityManager->getRepository(Edition::class)->find($id);
@@ -118,12 +135,10 @@ class EditionController extends AbstractController
         return new Response('Ce qui a été supprimer : '.$edition->getNomEdition());
     }
 
-
-
-     #[Route("/form", name: "formulaire")]
-    public function action(EntityManagerInterface $entityManager, Request $request): Response
+    #[Route("/edition/update/{id}", name: "edition_update")]
+    public function actionUpdate(EntityManagerInterface $entityManager, Request $request, int $id): Response
     {
-        $edition = new Edition();
+        $edition = $entityManager->getRepository(Edition::class)->find($id);
         $form = $this->createForm(EditionType::class, $edition);
         $form->handleRequest($request);
 
