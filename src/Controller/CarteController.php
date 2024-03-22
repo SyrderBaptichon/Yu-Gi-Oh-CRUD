@@ -60,45 +60,13 @@ class CarteController extends AbstractController
     {
         $cartes = $entityManager->getRepository(Carte::class)->findAll();
 
-        // Générer le tableau HTML
-        $table = '<h1>Voici les cartes :</h1><table border="1">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Catégorie</th>
-                        <th>Attribut</th>
-                        <th>Niveau</th>
-                        <th>Image</th>
-                        <th>Type</th>
-                        <th>Spécificité</th>
-                        <th>ATK</th>
-                        <th>DEF</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>';
-
-        foreach ($cartes as $carte) {
-            $table .= '<tr>
-                    <td>' . $carte->getId() . '</td>
-                    <td>' . $carte->getCarteNom() . '</td>
-                    <td>' . $carte->getCarteCategorie() . '</td>
-                    <td>' . $carte->getCarteAttribut() . '</td>
-                    <td>' . $carte->getCarteNiveau() . '</td>
-                    <td>' . $carte->getCarteImage() . '</td>
-                    <td>' . $carte->getCarteType() . '</td>
-                    <td>' . $carte->getCarteSpecificite() . '</td>
-                    <td>' . $carte->getCarteATK() . '</td>
-                    <td>' . $carte->getCarteDEF() . '</td>
-                    <td>' . $carte->getCarteDescription() . '</td>
-                </tr>';
+        if (!$cartes) {
+            throw $this->createNotFoundException('Aucune édition trouvée !');
         }
 
-        $table .= '</tbody></table>';
-
-        // Retourner le tableau dans une réponse HTTP
-        return new Response($table);
+        return $this->render('carte/cartes.html.twig', [
+            'cartes' => $cartes,
+        ]);
     }
 
     #[Route('/carte/{id}', name: 'carte_show')]
