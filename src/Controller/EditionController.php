@@ -6,6 +6,7 @@ use App\Entity\Edition;
 use App\Form\EditionType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,16 +15,20 @@ use Symfony\Component\Routing\Attribute\Route;
 class EditionController extends AbstractController
 {
     #[Route('/editions', name: 'app_edition')]
-    public function showAll(EntityManagerInterface $entityManager): Response
+    public function showAll(EntityManagerInterface $entityManager, PaginatorInterface $paginator, Request $request): Response
     {
         $editions = $entityManager->getRepository(Edition::class)->findAll();
 
-        if (!$editions) {
-            throw $this->createNotFoundException('Aucune édition trouvée !');
-        }
+        // Paginer les données
+        $pagination = $paginator->paginate(
+            $editions, // Les données à paginer
+            $request->query->getInt('page', 1), // Numéro de page à afficher, 1 par défaut
+            12 // Nombre d'éléments par page
+        );
 
+        // Passer les données paginées au template Twig
         return $this->render('edition/editions.html.twig', [
-            'editions' => $editions,
+            'pagination' => $pagination,
         ]);
     }
 

@@ -2,29 +2,62 @@
 
 {% block body %}
 
-    <h1>Voici les cartes :</h1>
+    <div id="navbarMenuHeroB" class="navbar-menu">
+        <div class="navbar-end">
+            <a class="navbar-item is-active" href="{{ path('cartes_show') }}"> Cartes </a>
+            <a class="navbar-item" href="{{ path('app_edition') }}"> Editions </a>
+            <a class="navbar-item" href="{{ path('cartes_show') }}"> Langues </a>
+        </div>
+    </div>
+    </div>
+    </nav>
+    </div>
 
-    <table border="1" class="table is-bordered is-striped is-hoverable is-narrow is-fullwidth">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Catégorie</th>
-            <th>Image</th>
-            <th>Type</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for carte in cartes %}
-            <tr>
-                <td>{{ carte.getId() }}</td>
-                <td>{{ carte.getCarteNom() }}</td>
-                <td>{{ carte.getCarteCategorie() }}</td>
-                <td>{{ carte.getCarteImage() }}</td>
-                <td>{{ carte.getCarteType() }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title">Voici les cartes :</p>
+            <p>
+
+                {% set totalPages = (pagination.getTotalItemCount() / pagination.getItemNumberPerPage()) + 1 %}
+            <nav class="pagination is-small is-centered is-rounded" role="navigation" aria-label="pagination">
+                <ul class="pagination-list">
+                    {% for page in range(1, totalPages) %}
+                        <li>
+                            <a href="{{ path('cartes_show', {'page': page}) }}" class="pagination-link{% if pagination.currentPageNumber == page %} is-current{% endif %}" aria-label="Page {{ page}}" aria-current="page">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+
+            <table class="table is-hoverable is-fullwidth">
+                <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Nom</th>
+                    <th>Catégorie</th>
+                    <th>Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for carte in pagination %}
+                    <tr>
+                        <td>
+                            <img src="{{ carte.getCarteImage() }}" alt="{{ carte.getCarteNom() }}" width="50" height="50">
+                        </td>
+                        <td>{{ carte.getCarteNom() }}</td>
+                        <td>{{ carte.getCarteCategorie() }}</td>
+                        <td>{{ carte.getCarteType() }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            </p>
+        </div>
+    </div>
+
+
+
+
 
 {% endblock %}

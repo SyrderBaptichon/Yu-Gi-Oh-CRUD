@@ -2,23 +2,51 @@
 
 {% block body %}
 
-<h1>Voici les éditions :</h1>
-<table class="table is-bordered is-striped is-hoverable is-narrow is-fullwidth">
+    <div id="navbarMenuHeroB" class="navbar-menu">
+        <div class="navbar-end">
+            <a class="navbar-item" href="{{ path('cartes_show') }}"> Cartes </a>
+            <a class="navbar-item is-active" href="{{ path('app_edition') }}"> Editions </a>
+            <a class="navbar-item" href="{{ path('cartes_show') }}"> Langues </a>
+        </div>
+    </div>
+    </div>
+    </nav>
+    </div>
+
+    <div class="hero-body">
+    <div class="container has-text-centered">
+    <p class="title">Voici les éditions :</p>
+    <p>
+        {% set totalPages = (pagination.getTotalItemCount() / pagination.getItemNumberPerPage()) + 1 %}
+        <nav class="pagination is-small is-centered is-rounded" role="navigation" aria-label="pagination">
+            <ul class="pagination-list">
+                {% for page in range(1, totalPages) %}
+                    <li>
+                        <a href="{{ path('app_edition', {'page': page}) }}" class="pagination-link{% if pagination.currentPageNumber == page %} is-current{% endif %}" aria-label="Page {{ page}}" aria-current="page">{{ page }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+<table class="table is-hoverable is-fullwidth">
     <thead>
     <tr>
-        <th>Nom de l'édition</th>
         <th>Numéro de l'édition</th>
+        <th>Nom de l'édition</th>
         <th>Date de l'édition</th>
     </tr>
     </thead>
     <tbody>
-    {% for edition in editions %}
+    {% for edition in pagination %}
         <tr>
-            <td>{{ edition.getNomEdition() }}</td>
             <td>{{ edition.getId() }}</td>
+            <td>{{ edition.getNomEdition() }}</td>
             <td>{{ edition.getDateEdition()|date('Y-m-d') }}</td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
+
+        </p>
+    </div>
+    </div>
 {% endblock %}

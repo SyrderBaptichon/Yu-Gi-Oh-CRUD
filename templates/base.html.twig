@@ -14,31 +14,52 @@
         {% endblock %}
     </head>
     <body>
-    <nav class="navbar is-success" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="https://bulma.io">
-                <img src="{{ asset('images/yugioh.svg') }}" alt="Yugioh">
-            </a>
-        </div>
+    <section class="hero is-info is-medium">
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item">
+                            <img src="{{ asset('images/yugioh.svg') }}" alt="Yugioh">
+                        </a>
+                        <span class="navbar-burger" data-target="navbarMenuHeroB">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+                    </div>
 
-        <div id="navbarBasicExample" class="navbar-menu is-centered">
-            <div class="navbar-start">
-                <a class="navbar-item" href="{{ path('cartes_show') }}">
-                    Cartes
-                </a>
-
-                <a class="navbar-item" href="{{ path('app_edition') }}">
-                    Editions
-                </a>
-
-                <a class="navbar-item" href="{{ path('cartes_show') }}">
-                    Langues
-                </a>
-            </div>
-        </div>
-    </nav>
         {% block body %}
 
+
         {% endblock %}
+    <div class="hero-foot">
+        <nav class="tabs is-boxed is-fullwidth">
+            <div class="container">
+                <ul>
+                    <li class="is-active">
+                        <a>Overview</a>
+                    </li>
+                    <li>
+                        <a>Modifiers</a>
+                    </li>
+                    <li>
+                        <a>Grid</a>
+                    </li>
+                    <li>
+                        <a>Elements</a>
+                    </li>
+                    <li>
+                        <a>Components</a>
+                    </li>
+                    <li>
+                        <a>Layout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    </section>
     </body>
 </html>

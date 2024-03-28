@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 class CarteController extends AbstractController
 {
@@ -56,16 +57,21 @@ class CarteController extends AbstractController
     }
 
     #[Route('/cartes', name: 'cartes_show')]
-    public function showAll(EntityManagerInterface $entityManager) :Response
+    public function showAll(EntityManagerInterface $entityManager, PaginatorInterface $paginator, Request $request): Response
     {
+        // Récupérer les données à paginer depuis la base de données
         $cartes = $entityManager->getRepository(Carte::class)->findAll();
 
-        if (!$cartes) {
-            throw $this->createNotFoundException('Aucune édition trouvée !');
-        }
+        // Paginer les données
+        $pagination = $paginator->paginate(
+            $cartes, // Les données à paginer
+            $request->query->getInt('page', 1), // Numéro de page à afficher, 1 par défaut
+            15 // Nombre d'éléments par page
+        );
 
+        // Passer les données paginées au template Twig
         return $this->render('carte/cartes.html.twig', [
-            'cartes' => $cartes,
+            'pagination' => $pagination,
         ]);
     }
 
