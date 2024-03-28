@@ -85,14 +85,13 @@ class CarteController extends AbstractController
                 'No product found for id '.$id
             );
         }
-        $cartes = array($carte);
 
-        return $this->render('carte/cartes.html.twig', [
-            'cartes' => $cartes,
+        return $this->render('carte/carte.html.twig', [
+            'carte' => $carte,
         ]);
     }
 
-    #[Route('/carte/update/{id}', name: 'update_carte')]
+    #[Route('/carte/{id}/update', name: 'update_carte')]
     public function actionUpdate(EntityManagerInterface $entityManager, Request $request, int $id): Response
     {
         $carte = $entityManager->getRepository(Carte::class)->find($id);
@@ -127,7 +126,7 @@ class CarteController extends AbstractController
         return new Response('Ce qui a été mise à jour : '.$product->getCarteNom());
     }
 
-    #[Route('/carte/delete/{id}', name: 'delete_carte')]
+    #[Route('/carte/{id}/delete', name: 'delete_carte')]
     public function delete(EntityManagerInterface $entityManager, int $id): Response
     {
         $product = $entityManager->getRepository(Carte::class)->find($id);

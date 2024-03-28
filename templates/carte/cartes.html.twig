@@ -40,7 +40,7 @@
                 </thead>
                 <tbody>
                 {% for carte in pagination %}
-                    <tr>
+                    <tr onclick="window.location='{{ path('carte_show', {'id': carte.getId()}) }}';" style="cursor: pointer;">
                         <td>
                             <img src="{{ carte.getCarteImage() }}" alt="{{ carte.getCarteNom() }}" width="50" height="50">
                         </td>

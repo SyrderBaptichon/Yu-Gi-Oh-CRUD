@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div id="navbarMenuHeroB" class="navbar-menu">
+        <div class="navbar-end">
+            <a class="navbar-item is-active" href="{{ path('cartes_show') }}"> Cartes </a>
+            <a class="navbar-item" href="{{ path('app_edition') }}"> Editions </a>
+            <a class="navbar-item" href="{{ path('cartes_show') }}"> Langues </a>
+        </div>
+    </div>
+    </div>
+    </nav>
+    </div>
+
+    <div class="hero-body">
+        <div class="container has-text-centered">
+
+            <div class="columns">
+                <div class="column is-2"></div>
+
+                <div class="column is-4">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">{{ carte.getCarteNom() }}</p>
+                            <button class="card-header-icon" aria-label="more options">
+                                  <span class="icon">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                  </span>
+                            </button>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <p class="is-size-6">Catégorie: <span class=" has-text-weight-bold">{{ carte.getCarteCategorie() }}</span> </p>
+                                <p class="is-size-6">Type: <span class=" has-text-weight-bold">{{ carte.getCarteType() }}</span></p>
+                                <p class="is-size-6">Attribut: <span class=" has-text-weight-bold">{{ carte.getCarteAttribut() }}</span></p>
+                                <p class="is-size-6">Niveau: <span class=" has-text-weight-bold">{{ carte.getCarteNiveau() }}</span></p>
+                                <p class="is-size-6">Spécificité: <span class=" has-text-weight-bold">{{ carte.getCarteSpecificite() }}</span></p>
+                                <p class="is-size-6">ATK: <span class=" has-text-weight-bold">{{ carte.getCarteATK() }}</span></p>
+                                <p class="is-size-6">DEF: <span class=" has-text-weight-bold">{{ carte.getCarteDEF() }}</span></p>
+                                <p class="is-size-6"><span class="is-italic">{{ carte.getCarteDescription() }}</span></p>
+                                {# Ajoutez d'autres attributs de carte ici #}
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a class="card-footer-item" onclick="window.location='{{ path('update_carte', {'id': carte.getId()}) }}';" style="cursor: pointer;">Modifier</a>
+                            <a class="card-footer-item" onclick="window.location='{{ path('delete_carte', {'id': carte.getId()}) }}';" style="cursor: pointer;">Supprimer</a>
+                        </footer>
+                    </div>
+
+                </div>
+                <div class="column is-4">
+                        <img src="{{ carte.getCarteImage() }}" alt="{{ carte.getCarteNom() }}" width="380" height="380">
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}
