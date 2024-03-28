@@ -1,24 +1,5 @@
 
 {% extends 'base.html.twig' %}
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        $(document).ready(function() {
-            // Cacher les champs au chargement de la page
-            $('.carte-specificite, .carte-atk, .carte-def, .carte-niveau, .carte-attribut').prop('disabled', true);
-
-            // Écouter les changements de la catégorie
-            $('#carte_categorie').change(function() {
-                var selectedCategory = $(this).val();
-                if (selectedCategory !== 'Monstre') {
-                    $('.carte-specificite, .carte-atk, .carte-def, .carte-niveau, .carte-attribut').val('').prop('disabled', true);
-                } else {
-                    $('.carte-specificite, .carte-atk, .carte-def, .carte-niveau, .carte-attribut').prop('disabled', false);
-                }
-            });
-        });
-    </script>
-{% endblock %}
 
 
 {% block body %}
@@ -26,7 +7,7 @@
     <div id="navbarMenuHeroB" class="navbar-menu">
         <div class="navbar-end">
             <a class="navbar-item is-active" href="{{ path('cartes_show') }}"> Cartes </a>
-            <a class="navbar-item" href="{{ path('app_edition') }}"> Editions </a>
+            <a class="navbar-item" href="{{ path('editions_show') }}"> Editions </a>
             <a class="navbar-item" href="{{ path('cartes_show') }}"> Langues </a>
         </div>
     </div>

@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class EditionController extends AbstractController
 {
-    #[Route('/editions', name: 'app_edition')]
+    #[Route('/edition', name: 'editions_show')]
     public function showAll(EntityManagerInterface $entityManager, PaginatorInterface $paginator, Request $request): Response
     {
         $editions = $entityManager->getRepository(Edition::class)->findAll();
@@ -62,10 +62,10 @@ class EditionController extends AbstractController
             $entityManager->persist($edition);
             // but, the original `$task` variable has also been updated
             $entityManager->flush();
-            return $this->redirectToRoute('app_edition');
+            return $this->redirectToRoute('show_editon', ['id' => $edition->getId()]);
         }
 
-        return $this->render('edition/edition.html.twig', array(
+        return $this->render('edition/formEdition.html.twig', array(
             'form' => $form,
         ));
     }
@@ -81,7 +81,9 @@ class EditionController extends AbstractController
             );
         }
 
-        return new Response('Voici l\'édition: '.$edition->getNomEdition());
+        return $this->render('edition/edition.html.twig', [
+            'edition' => $edition,
+        ]);
     }
 
     public function update(EntityManagerInterface $entityManager, int $id): Response
@@ -100,7 +102,7 @@ class EditionController extends AbstractController
         return new Response('Ce qui a été mise à jour : '.$edition->getNomEdition());
     }
 
-    #[Route('/edition/delete/{id}', name: 'delete_edition')]
+    #[Route('/edition/{id}/delete', name: 'delete_edition')]
     public function delete(EntityManagerInterface $entityManager, int $id): Response
     {
         $edition = $entityManager->getRepository(Edition::class)->find($id);
@@ -114,10 +116,10 @@ class EditionController extends AbstractController
         $entityManager->remove($edition);
         $entityManager->flush();
 
-        return new Response('Ce qui a été supprimer : '.$edition->getNomEdition());
+        return $this->redirectToRoute('editions_show') ;
     }
 
-    #[Route("/edition/update/{id}", name: "edition_update")]
+    #[Route("/edition/{id}/update", name: "edition_update")]
     public function actionUpdate(EntityManagerInterface $entityManager, Request $request, int $id): Response
     {
         $edition = $entityManager->getRepository(Edition::class)->find($id);
@@ -129,10 +131,10 @@ class EditionController extends AbstractController
             $entityManager->persist($edition);
             // but, the original `$task` variable has also been updated
             $entityManager->flush();
-            return $this->redirectToRoute('app_edition');
+            return $this->redirectToRoute('show_editon', ['id' => $edition->getId()]);
         }
 
-        return $this->render('edition/edition.html.twig', array(
+        return $this->render('edition/formEdition.html.twig', array(
             'form' => $form,
         ));
     }

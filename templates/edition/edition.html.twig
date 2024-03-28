@@ -2,18 +2,56 @@
 
 {% block body %}
 
-    <h1>Creation d'une édition</h1>
-    <p class="pull-right">
-{# <a href="{{ path('') }}"><span class="glyphicon glyphicon-th-list"></span> Retour à la liste</a> #}
-    </p>
+    <div id="navbarMenuHeroB" class="navbar-menu">
+        <div class="navbar-end">
+            <a class="navbar-item" href="{{ path('cartes_show') }}"> Cartes </a>
+            <a class="navbar-item is-active" href="{{ path('editions_show') }}"> Editions </a>
+            <a class="navbar-item" href="{{ path('cartes_show') }}"> Langues </a>
+        </div>
+    </div>
+    </div>
+    </nav>
+    </div>
 
-    {{ form_start(form) }}
-    {{ form_errors(form) }}
+    <div class="hero-body">
+        <div class="container has-text-centered">
 
-    {{ form_row(form.nom_edition, { 'label': 'Nom  ' }) }}
-    {{ form_row(form.date_edition, { 'label': 'Date  ' }) }}
+            <div class="columns">
+                <div class="column is-2"></div>
 
-    {{ form_row(form.save, { 'label': 'Enregistrer' }) }}
-    {{ form_end(form) }}
+                <div class="column is-4">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">{{ edition.getNomEdition() }}</p>
+                            <button class="card-header-icon" aria-label="more options">
+                                  <span class="icon">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                  </span>
+                            </button>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <p class="is-size-6">Date de lancement: <span class=" has-text-weight-bold">{{ edition.getDateEdition()|date('Y-m-d') }}</span> </p>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a class="card-footer-item" onclick="window.location='{{ path('edition_update', {'id': edition.getId()}) }}';" style="cursor: pointer;">Modifier</a>
+                            <a class="card-footer-item" onclick="window.location='{{ path('delete_edition', {'id': edition.getId()}) }}';" style="cursor: pointer;">Supprimer</a>
+                        </footer>
+                    </div>
+
+                </div>
+                <div class="column is-4">
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
 
 {% endblock %}

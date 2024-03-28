@@ -16,9 +16,11 @@ class EditionType extends AbstractType
     {
         $builder
             ->add('nom_edition', TextType::class)
-            ->add('date_edition', DateType::class, ['required' => false])
-            ->add('save', SubmitType::class)
-        ;
+            ->add('date_edition', DateType::class, ['required' => false, 'years' => range(2010, 2025)])
+            ->add('save', SubmitType::class, [
+                'label' => 'Enregistrer', // Modifier le label du bouton de sauvegarde
+                'attr' => ['class' => 'button is-primary'] // Classes CSS pour le bouton
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
