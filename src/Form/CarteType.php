@@ -28,6 +28,7 @@ class CarteType extends AbstractType
                     'Terre' => 'terre',
                     'Eau' => 'eau',
                 ],
+                'required' => false,
             ])
             ->add('carte_categorie', ChoiceType::class, [
                 'choices' => [
@@ -36,10 +37,13 @@ class CarteType extends AbstractType
                     'Piège' => 'Piège',
                 ],
             ])
-            ->add('carte_niveau', IntegerType::class)
+            ->add('carte_niveau', IntegerType::class, [
+                'required' => false,
+            ])
             ->add('carte_image', URLType::class, [
                 'label' => 'Image',
                 'required' => false,
+                'empty_data' => 'https://data.pixiz.com/output/user/frame/preview/api/big/0/7/6/3/2063670_b8d7e.jpg' // Valeur par défaut si aucun URL n'est fourni
             ])
             ->add('carte_type', ChoiceType::class, [
                 'choices' => [
@@ -63,7 +67,16 @@ class CarteType extends AbstractType
                     'MAGICIEN' => 'MAGICIEN',
                     'ÉQUIPEMENT' => 'ÉQUIPEMENT',
                     'TERRAIN' => 'TERRAIN',
+                    'SERPENT DE MER' => 'SERPENT DE MER',
+                    'NORMAL' => 'NORMAL',
+                    'CYBERSE' => 'CYBERSE',
+                    'PSYCHIQUE' => 'PSYCHIQUE',
+                    'ZOMBIE' => 'ZOMBIE',
+                    'CONTINU' => 'CONTINU',
+                    'DINOSAURE' => 'DINOSAURE',
+                    'DÉMON' => 'DÉMON',
                 ],
+                'required' => false,
             ])
             ->add('carte_specificite', ChoiceType::class, [
                 'choices' => [
@@ -81,10 +94,17 @@ class CarteType extends AbstractType
                     'FLIP' => 'FLIP',
                     'EFFET' => 'EFFET',
                 ],
+                'required' => false,
             ])
-            ->add('carteATK', IntegerType::class)
-            ->add('carteDEF', IntegerType::class)
-            ->add('carte_description', TextareaType::class) // Utilisation de TextareaType pour carte_description
+            ->add('carteATK', IntegerType::class, [
+                'required' => false,
+            ])
+            ->add('carteDEF', IntegerType::class, [
+                'required' => false,
+            ])
+            ->add('carte_description', TextareaType::class, [
+                'required' => false,
+            ]) // Utilisation de TextareaType pour carte_description
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer', // Modifier le label du bouton de sauvegarde
                 'attr' => ['class' => 'button is-primary'] // Classes CSS pour le bouton

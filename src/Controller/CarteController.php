@@ -13,14 +13,6 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class CarteController extends AbstractController
 {
-    #[Route('/carte', name: 'app_carte')]
-    public function index(): Response
-    {
-        return $this->render('carte/index.html.twig', [
-            'controller_name' => 'CarteController',
-        ]);
-    }
-
     #[Route('/carte/insert', name: 'insert_carte')]
     public function new(EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -32,7 +24,7 @@ class CarteController extends AbstractController
             $carte= $form->getData();
             $entityManager->persist($carte);
             $entityManager->flush();
-            return $this->redirectToRoute('cartes_show');
+            return $this->redirectToRoute('carte_show', ['id' => $carte->getId()]);
         }
 
         return $this->render('carte/formCarte.html.twig',array(
@@ -56,7 +48,7 @@ class CarteController extends AbstractController
         return new Response("La carte ".$carte->getCarteNom()." a été ajoutée à la base de données avec succès !");
     }
 
-    #[Route('/cartes', name: 'cartes_show')]
+    #[Route('/carte', name: 'cartes_show')]
     public function showAll(EntityManagerInterface $entityManager, PaginatorInterface $paginator, Request $request): Response
     {
         // Récupérer les données à paginer depuis la base de données
@@ -102,7 +94,7 @@ class CarteController extends AbstractController
             $carte = $form->getData();
             $entityManager->persist($carte);
             $entityManager->flush();
-            return $this->redirectToRoute('cartes_show');
+            return $this->redirectToRoute('carte_show', ['id' => $carte->getId()]);
         }
 
         return $this->render('carte/formCarte.html.twig', array(
@@ -140,7 +132,7 @@ class CarteController extends AbstractController
         $entityManager->remove($product);
         $entityManager->flush();
 
-        return new Response('Ce qui a été supprimer : '.$product->getCarteNom());
+        return $this->redirectToRoute('cartes_show') ;
 
     }
 

@@ -1,5 +1,25 @@
-{# dummy.html.twig #}
+
 {% extends 'base.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            // Cacher les champs au chargement de la page
+            $('.carte-specificite, .carte-atk, .carte-def, .carte-niveau, .carte-attribut').prop('disabled', true);
+
+            // Écouter les changements de la catégorie
+            $('#carte_categorie').change(function() {
+                var selectedCategory = $(this).val();
+                if (selectedCategory !== 'Monstre') {
+                    $('.carte-specificite, .carte-atk, .carte-def, .carte-niveau, .carte-attribut').val('').prop('disabled', true);
+                } else {
+                    $('.carte-specificite, .carte-atk, .carte-def, .carte-niveau, .carte-attribut').prop('disabled', false);
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
 
 {% block body %}
 
@@ -176,11 +196,10 @@
         </div>
     </div>
 
-
-
-
-
-
 {% endblock %}
+
+
+
+
 
 
