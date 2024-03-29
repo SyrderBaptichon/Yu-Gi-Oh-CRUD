@@ -1,14 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
     <div id="navbarMenuHeroB" class="navbar-menu">
         <div class="navbar-end">
             <a class="navbar-item is-active" href="{{ path('cartes_show') }}"> Cartes </a>
             <a class="navbar-item" href="{{ path('editions_show') }}"> Editions </a>
             <a class="navbar-item" href="{{ path('langues_show') }}"> Langues </a>
         </div>
-    </div>
     </div>
     </nav>
     </div>
@@ -27,17 +25,6 @@
             <p class="title">Voici les cartes :</p>
             <p>
 
-                {% set totalPages = ((pagination.getTotalItemCount() / pagination.getItemNumberPerPage()) )+ 2 %}
-            <nav class="pagination is-small is-centered is-rounded" role="navigation" aria-label="pagination">
-                <ul class="pagination-list">
-                    {% for page in range(1, totalPages) %}
-                        <li>
-                            <a href="{{ path('cartes_show', {'page': page}) }}" class="pagination-link{% if pagination.currentPageNumber == page %} is-current{% endif %}" aria-label="Page {{ page}}" aria-current="page">{{ page }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </nav>
-
             <table class="table is-hoverable is-fullwidth">
                 <thead>
                 <tr>
@@ -48,7 +35,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for carte in pagination %}
+                {% for carte in cartes %}
                     <tr onclick="window.location='{{ path('carte_show', {'id': carte.getId()}) }}';" style="cursor: pointer;">
                         <td>
                             <img src="{{ carte.getCarteImage() }}" alt="{{ carte.getCarteNom() }}" width="50" height="50">
@@ -61,9 +48,19 @@
                 </tbody>
             </table>
 
-            </p>
             <p>
-                <div class="columns">
+                <a href="{{ path('cartes_show', {'page': 1}) }}" class="button is-info">Première page</a>
+                {% if page > 1 %}
+                    <a href="{{ path('cartes_show', {'page': page - 1}) }}" class="button is-info">Page précédente</a>
+                {% endif %}
+                {% if page < totalPages %}
+                    <a href="{{ path('cartes_show', {'page': page + 1}) }}" class="button is-info">Page suivante</a>
+                {% endif %}
+                <a href="{{ path('cartes_show', {'page': totalPages}) }}" class="button is-info">Dernière page</a>
+            </p>
+            <p> <br></p>
+            <p>
+            <div class="columns">
                 <div class="column is-4"></div>
                 <div class="column is-4">
                     <button class="button is-success is-rounded is-medium is-fullwidth is-responsive"
@@ -73,11 +70,8 @@
                 <div class="column is-4"></div>
             </div>
             </p>
+
         </div>
     </div>
-
-
-
-
-
 {% endblock %}
+

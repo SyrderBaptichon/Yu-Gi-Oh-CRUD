@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Carte;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -19,23 +20,16 @@ class CarteType extends AbstractType
     {
         $builder
             ->add('carte_nom', TextType::class)
-            ->add('carte_attribut', ChoiceType::class, [
-                'choices' => [
-                    'Lumière' => 'lumière',
-                    'Feu' => 'feu',
-                    'Ténèbres' => 'ténèbres',
-                    'Vent' => 'vent',
-                    'Terre' => 'terre',
-                    'Eau' => 'eau',
-                ],
-                'required' => false,
+            ->add('carte_attribut', EntityType::class, [
+                'class' => Carte::class,
+                'choice_label' => 'carte_attribut', // Affiche le nom de la carte dans la liste
+                'choice_value' => 'carte_attribut', // Transmet le numéro de la carte lors de la soumission
             ])
-            ->add('carte_categorie', ChoiceType::class, [
-                'choices' => [
-                    'Monstre' => 'Monstre',
-                    'Magie' => 'Magie',
-                    'Piège' => 'Piège',
-                ],
+            ->add('carte_categorie', EntityType::class, [
+                'class' => Carte::class,
+                'choice_label' => 'carte_categorie', // Affiche le nom de la carte dans la liste
+                'choice_value' => 'carte_categorie',// Transmet le numéro de la carte lors de la soumission
+                'required' => 'false',
             ])
             ->add('carte_niveau', IntegerType::class, [
                 'required' => false,
@@ -45,56 +39,18 @@ class CarteType extends AbstractType
                 'required' => false,
                 'empty_data' => 'https://data.pixiz.com/output/user/frame/preview/api/big/0/7/6/3/2063670_b8d7e.jpg' // Valeur par défaut si aucun URL n'est fourni
             ])
-            ->add('carte_type', ChoiceType::class, [
-                'choices' => [
-                    'TONNERRE' => 'TONNERRE',
-                    'ELFE' => 'ELFE',
-                    'MACHINE' => 'MACHINE',
-                    'GUERRIER' => 'GUERRIER',
-                    'DRAGON' => 'DRAGON',
-                    'BÊTE' => 'BÊTE',
-                    'REPTILE' => 'REPTILE',
-                    'JEU RAPIDE' => 'JEU RAPIDE',
-                    'AQUA' => 'AQUA',
-                    'BÊTE-GUERRIER' => 'BÊTE-GUERRIER',
-                    'ROCHER' => 'ROCHER',
-                    'PYRO' => 'PYRO',
-                    'RITUEL' => 'RITUEL',
-                    'POISSON' => 'POISSON',
-                    'PLANTE' => 'PLANTE',
-                    'CONTRE' => 'CONTRE',
-                    'BÊTE AILÉE' => 'BÊTE AILÉE',
-                    'MAGICIEN' => 'MAGICIEN',
-                    'ÉQUIPEMENT' => 'ÉQUIPEMENT',
-                    'TERRAIN' => 'TERRAIN',
-                    'SERPENT DE MER' => 'SERPENT DE MER',
-                    'NORMAL' => 'NORMAL',
-                    'CYBERSE' => 'CYBERSE',
-                    'PSYCHIQUE' => 'PSYCHIQUE',
-                    'ZOMBIE' => 'ZOMBIE',
-                    'CONTINU' => 'CONTINU',
-                    'DINOSAURE' => 'DINOSAURE',
-                    'DÉMON' => 'DÉMON',
-                ],
-                'required' => false,
+            ->add('carte_type',EntityType::class, [
+                'class' => Carte::class,
+                'choice_label' => 'carte_type', // Affiche le nom de la carte dans la liste
+                'choice_value' => 'carte_type',// Transmet le numéro de la carte lors de la soumission
+                'required' => 'false',
             ])
-            ->add('carte_specificite', ChoiceType::class, [
-                'choices' => [
-                    'FUSION' => 'FUSION',
-                    'UNION' => 'UNION',
-                    'AUCUNE' => 'AUCUNE',
-                    'PENDULE' => 'PENDULE',
-                    'XYZ' => 'XYZ',
-                    'SYNCHRO' => 'SYNCHRO',
-                    'RITUEL' => 'RITUEL',
-                    'TOON' => 'TOON',
-                    'LIEN' => 'LIEN',
-                    'SYNTONISEUR' => 'SYNTONISEUR',
-                    'GÉMEAU' => 'GÉMEAU',
-                    'FLIP' => 'FLIP',
-                    'EFFET' => 'EFFET',
-                ],
-                'required' => false,
+            ->add('carte_specificite', EntityType::class, [
+                'class' => Carte::class,
+                'choice_label' => 'carte_specificite', // Affiche le nom de la carte dans la liste
+                'choice_value' => 'carte_specificite',// Transmet le numéro de la carte lors de la soumission
+                'required' => 'false',
+                'empty_data' =>' '
             ])
             ->add('carteATK', IntegerType::class, [
                 'required' => false,

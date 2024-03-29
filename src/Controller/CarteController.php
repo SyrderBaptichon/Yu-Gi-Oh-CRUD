@@ -52,9 +52,7 @@ class CarteController extends AbstractController
     #[Route('/carte', name: 'cartes_show')]
     public function showAll(EntityManagerInterface $entityManager, PaginatorInterface $paginator, Request $request): Response
     {
-        // Récupérer le terme de recherche s'il est présent dans la requête
         $searchTerm = $request->query->get('searchTerm');
-
         // Récupérer les données à paginer depuis la base de données
         $form = $this->createForm(SearchFormType::class);
         $form->handleRequest($request);
@@ -66,30 +64,42 @@ class CarteController extends AbstractController
             return $this->redirectToRoute('cartes_show', ['searchTerm' => $searchTerm]);
         }
 
-        // Récupérer les cartes depuis la base de données en fonction du terme de recherche s'il est présent
+        // Récupérer le numéro de la page demandée
+        $page = $request->query->getInt('page', 1);
+
+        // Calculer l'offset en fonction du numéro de page
+        $offset = ($page - 1) * 10;
+
+
+        // Récupérer le nombre total de cartes
+        $totalCartes = $entityManager->getRepository(Carte::class)->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Calculer le nombre total de pages
+        $totalPages = ceil($totalCartes / 10);
+
         if ($searchTerm !== null) {
             $cartesQuery = $entityManager->getRepository(Carte::class)->createQueryBuilder('c');
             $cartesQuery->andWhere('c.carte_nom LIKE :searchTerm')
                 ->setParameter('searchTerm', '%'.$searchTerm.'%');
+            $cartes = $cartesQuery->getQuery()->getResult();
         } else {
-            // Si aucun terme de recherche n'est fourni, récupérer toutes les cartes
-            $cartesQuery = $entityManager->getRepository(Carte::class)->createQueryBuilder('c');
+            $cartesQuery = $entityManager->getRepository(Carte::class)->createQueryBuilder('c')->setFirstResult($offset);
+            $cartes = $cartesQuery
+
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
         }
-
-        // Exécuter la requête
-        $cartes = $cartesQuery->getQuery()->getResult();
-
-        // Paginer les données
-        $pagination = $paginator->paginate(
-            $cartes, // Les données à paginer
-            $request->query->getInt('page', 1), // Numéro de page à afficher, 1 par défaut
-            15 // Nombre d'éléments par page
-        );
 
         // Passer les données paginées au template Twig
         return $this->render('carte/cartes.html.twig', [
             'form' => $form->createView(),
-            'pagination' => $pagination,
+            'cartes' => $cartes,
+            'page' => $page,
+            'totalPages' => $totalPages,
             'searchTerm' => $searchTerm, // Passer le terme de recherche à la vue
         ]);
     }
