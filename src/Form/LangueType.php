@@ -15,8 +15,10 @@ class LangueType extends AbstractType
     {
         $builder
             ->add('nom_langue', TextType::class)
-            ->add('save',SubmitType::class)
-        ;
+            ->add('save',SubmitType::class, [
+                'label' => 'Enregistrer', // Modifier le label du bouton de sauvegarde
+                'attr' => ['class' => 'button is-primary'] // Classes CSS pour le bouton
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -1,68 +1,69 @@
+
 {% extends 'base.html.twig' %}
 
-{% block head %}
-    {{ parent() }} {# Inclut le contenu du block 'head' de base.html.twig #}
-    <link rel="stylesheet" href="{{ asset('assets/css/Langue.css') }}">
-    <style>
-        /* Styles spécifiques pour le formulaire */
-        form {
-            width: 400px;
-            margin: 0 auto;
-        }
-
-        /* Style pour les étiquettes des champs */
-        form label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        /* Style pour les champs de saisie */
-        form input[type="text"],
-        form input[type="email"],
-        form input[type="password"],
-        form textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        /* Style pour le bouton de soumission */
-        form button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        /* Style pour le bouton de soumission au survol */
-        form button:hover {
-            background-color: #45a049;
-        }
-
-        /* Style pour les messages d'erreur */
-        .error-message {
-            color: red;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        /* Style pour les messages de succès */
-        .success-message {
-            color: green;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-    </style>
-{% endblock %}
 
 {% block body %}
-    <h1>Langue à modifier !</h1>
 
-    {{ form(form) }}
+    <div id="navbarMenuHeroB" class="navbar-menu">
+        <div class="navbar-end">
+            <a class="navbar-item" href="{{ path('cartes_show') }}"> Cartes </a>
+            <a class="navbar-item" href="{{ path('editions_show') }}"> Editions </a>
+            <a class="navbar-item is-active" href="{{ path('langues_show') }}"> Langues </a>
+        </div>
+    </div>
+    </div>
+    </nav>
+    </div>
+
+    <div class="hero-body">
+        <div class="container has-text-centered">
+
+            <div class="columns">
+                <div class="column is-4"></div>
+
+                <div class="column is-4">
+
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Nom</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    {{ form_widget(form.nom_langue, {'attr': {'class': 'input'}}) }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label"></div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    {{ form_widget(form.save, {'attr': {'class': 'button is-primary'}}) }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ form_end(form) }}
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
 
 {% endblock %}
+
+
+
+
+
+
