@@ -30,7 +30,6 @@
 <table class="table is-hoverable is-fullwidth">
     <thead>
     <tr>
-        <th>Numéro de l'édition</th>
         <th>Nom de l'édition</th>
         <th>Date de l'édition</th>
     </tr>
@@ -38,7 +37,6 @@
     <tbody>
     {% for edition in pagination %}
         <tr onclick="window.location='{{ path('show_editon', {'id': edition.getId()}) }}';" style="cursor: pointer;">
-        <td>{{ edition.getId() }}</td>
             <td>{{ edition.getNomEdition() }}</td>
             <td>{{ edition.getDateEdition()|date('Y-m-d') }}</td>
         </tr>

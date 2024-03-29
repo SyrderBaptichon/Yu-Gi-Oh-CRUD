@@ -15,10 +15,19 @@
 
     <div class="hero-body">
         <div class="container has-text-centered">
+            {{ form_start(form, {'attr': {'class': 'field has-addons'}}) }}
+            <div class="control">
+                {{ form_widget(form.search, {'attr': {'class': 'input is-small'}}) }}
+            </div>
+            <div class="control">
+                {{ form_widget(form.save, {'attr': {'class': 'button is-primary'}}) }}
+            </div>
+            {{ form_end(form) }}
+
             <p class="title">Voici les cartes :</p>
             <p>
 
-                {% set totalPages = (pagination.getTotalItemCount() / pagination.getItemNumberPerPage()) + 1 %}
+                {% set totalPages = ((pagination.getTotalItemCount() / pagination.getItemNumberPerPage()) )+ 2 %}
             <nav class="pagination is-small is-centered is-rounded" role="navigation" aria-label="pagination">
                 <ul class="pagination-list">
                     {% for page in range(1, totalPages) %}

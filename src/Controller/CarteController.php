@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Carte;
 use App\Form\CarteType;
+use App\Form\SearchFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,8 +52,32 @@ class CarteController extends AbstractController
     #[Route('/carte', name: 'cartes_show')]
     public function showAll(EntityManagerInterface $entityManager, PaginatorInterface $paginator, Request $request): Response
     {
+        // Récupérer le terme de recherche s'il est présent dans la requête
+        $searchTerm = $request->query->get('searchTerm');
+
         // Récupérer les données à paginer depuis la base de données
-        $cartes = $entityManager->getRepository(Carte::class)->findAll();
+        $form = $this->createForm(SearchFormType::class);
+        $form->handleRequest($request);
+
+        // Si le formulaire de recherche est soumis et valide, rediriger vers la route resultat_recherche
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $searchTerm = $data['search'];
+            return $this->redirectToRoute('cartes_show', ['searchTerm' => $searchTerm]);
+        }
+
+        // Récupérer les cartes depuis la base de données en fonction du terme de recherche s'il est présent
+        if ($searchTerm !== null) {
+            $cartesQuery = $entityManager->getRepository(Carte::class)->createQueryBuilder('c');
+            $cartesQuery->andWhere('c.carte_nom LIKE :searchTerm')
+                ->setParameter('searchTerm', '%'.$searchTerm.'%');
+        } else {
+            // Si aucun terme de recherche n'est fourni, récupérer toutes les cartes
+            $cartesQuery = $entityManager->getRepository(Carte::class)->createQueryBuilder('c');
+        }
+
+        // Exécuter la requête
+        $cartes = $cartesQuery->getQuery()->getResult();
 
         // Paginer les données
         $pagination = $paginator->paginate(
@@ -63,9 +88,12 @@ class CarteController extends AbstractController
 
         // Passer les données paginées au template Twig
         return $this->render('carte/cartes.html.twig', [
+            'form' => $form->createView(),
             'pagination' => $pagination,
+            'searchTerm' => $searchTerm, // Passer le terme de recherche à la vue
         ]);
     }
+
 
     #[Route('/carte/{id}', name: 'carte_show')]
     public function show(EntityManagerInterface $entityManager, int $id): Response
