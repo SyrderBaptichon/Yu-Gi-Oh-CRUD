@@ -1,0 +1,115 @@
+html {
+    height: 100%;
+}
+
+body {
+    height : 100%;
+    margin : 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1rem;
+    background: #ffffff;
+}
+
+/* MENU */
+#menu {
+    height : 15%;
+    border-bottom: 2px solid #56a79a;
+}
+
+#siteName{
+    width: 25%;
+    float: left;
+    padding-left: 50px;
+}
+
+#navbar {
+    text-transform: uppercase;
+    margin-left: 25%;
+    height: 100%;
+    text-align: right;
+}
+
+#navbar ul {
+    padding-right: 50px;
+    padding-top: 30px;
+}
+
+#navbar li {
+    display: inline;
+    padding-right: 20px;
+    list-style: none;
+}
+
+#navbar a {
+    text-decoration: none;
+    color: #888888;
+}
+
+#navbar a:hover,
+#navbar a.current{
+    color: #56a79a;
+    border-bottom: 3px solid #56a79a;
+    padding-bottom: 3px;
+}
+
+/* TITLE */
+#titre {
+    background: #ffff;
+    text-align: center;
+    color: #56a79a;
+    height : 10%;
+    font-size: 2em;
+    text-transform: uppercase;
+    padding-top: 1em;
+}
+
+/* CONTENT */
+#contenu {
+    background: #ffff;
+    height: 65%;
+    overflow: hidden;
+    margin: 0em 5em;
+}
+
+#contenu h2 {
+    text-transform: capitalize;
+}
+
+/* FOOTER */
+#auteurs {
+    background: #56a79a;
+    height: 10%;
+    text-align: center;
+    padding-top: 1em;
+    color: #ffffff;
+}
+
+/* CLASSES */
+.primary-color {
+    color: #56a79a;
+}
+
+.primary-background {
+    background: #56a79a;
+    color: #ffffff;
+}
+
+.section {
+    text-align: justify;
+    background: #f2f2f2;
+    padding: 1em;
+}
+
+.btn{
+    text-decoration: none;
+    padding: 1em;
+    border-radius: 10px;
+    font-size: .80em;
+}
+
+a.btn:hover{
+    background: rgb(86, 167, 154, 0.8);
+    color: #f4f4f4;
+}
