@@ -6,6 +6,7 @@
         <cache>
           <versions>
             <info id="Local/home/c2i/Bureau/SEMESTRE VI/Programmation Web/projet_symfony/vendor/autoload.php" version="9.6.16" />
+            <info id="Local/vendor/autoload.php" version="9.6.16" />
           </versions>
         </cache>
       </tool>
